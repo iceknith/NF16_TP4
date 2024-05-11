@@ -1,7 +1,5 @@
-#include <stdio.h>
-#include "tp4.c"
+#include "main.h"
 
-int main() {
-    printf("Hello, World!\n");
-    return 0;
+int main(int argv, char* argc[]) {
+    return graphicalMain(argv, argc);
 }

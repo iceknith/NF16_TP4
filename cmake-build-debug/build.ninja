@@ -50,8 +50,10 @@ cmake_ninja_workdir = /home/iceknith/CLionProjects/NF16/TP/NF16_TP4/cmake-build-
 build cmake_object_order_depends_target_NF16_TP4: phony || CMakeFiles/NF16_TP4.dir
 
 build CMakeFiles/NF16_TP4.dir/main.c.o: C_COMPILER__NF16_TP4_unscanned_Debug /home/iceknith/CLionProjects/NF16/TP/NF16_TP4/main.c || cmake_object_order_depends_target_NF16_TP4
+  DEFINES = -DWITH_GZFILEOP
   DEP_FILE = CMakeFiles/NF16_TP4.dir/main.c.o.d
-  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
+  FLAGS = -g -std=gnu11 -fdiagnostics-color=always   -pthread
+  INCLUDES = -I/usr/include/gtk-3.0 -I/usr/include/pango-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/atk-1.0 -I/usr/include/freetype2 -I/usr/include/harfbuzz -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/cloudproviders -I/usr/include/webp -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib64/dbus-1.0/include -I/usr/include/fribidi -I/usr/include/libxml2 -I/usr/include/pixman-1 -I/usr/include/libpng16 -I/usr/include/gio-unix-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/sysprof-6
   OBJECT_DIR = CMakeFiles/NF16_TP4.dir
   OBJECT_FILE_DIR = CMakeFiles/NF16_TP4.dir
 
@@ -65,6 +67,8 @@ build CMakeFiles/NF16_TP4.dir/main.c.o: C_COMPILER__NF16_TP4_unscanned_Debug /ho
 
 build NF16_TP4: C_EXECUTABLE_LINKER__NF16_TP4_Debug CMakeFiles/NF16_TP4.dir/main.c.o
   FLAGS = -g
+  LINK_FLAGS = -Wl,-export-dynamic
+  LINK_LIBRARIES = -lgtk-3  -lgdk-3  -lz  -lpangocairo-1.0  -lpango-1.0  -lharfbuzz  -latk-1.0  -lcairo-gobject  -lcairo  -lgdk_pixbuf-2.0  -lgio-2.0  -lgobject-2.0  -lglib-2.0
   OBJECT_DIR = CMakeFiles/NF16_TP4.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -72,35 +76,70 @@ build NF16_TP4: C_EXECUTABLE_LINKER__NF16_TP4_Debug CMakeFiles/NF16_TP4.dir/main
   TARGET_PDB = NF16_TP4.dbg
 
 # =============================================================================
-# Object build statements for STATIC_LIBRARY target TP4
+# Object build statements for STATIC_LIBRARY target NF16_TP4_tp4
 
 
 #############################################
-# Order-only phony target for TP4
+# Order-only phony target for NF16_TP4_tp4
 
-build cmake_object_order_depends_target_TP4: phony || CMakeFiles/TP4.dir
+build cmake_object_order_depends_target_NF16_TP4_tp4: phony || CMakeFiles/NF16_TP4_tp4.dir
 
-build CMakeFiles/TP4.dir/tp4.c.o: C_COMPILER__TP4_unscanned_Debug /home/iceknith/CLionProjects/NF16/TP/NF16_TP4/tp4.c || cmake_object_order_depends_target_TP4
-  DEP_FILE = CMakeFiles/TP4.dir/tp4.c.o.d
-  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles/TP4.dir
-  OBJECT_FILE_DIR = CMakeFiles/TP4.dir
+build CMakeFiles/NF16_TP4_tp4.dir/tp4.c.o: C_COMPILER__NF16_TP4_tp4_unscanned_Debug /home/iceknith/CLionProjects/NF16/TP/NF16_TP4/tp4.c || cmake_object_order_depends_target_NF16_TP4_tp4
+  DEFINES = -DWITH_GZFILEOP
+  DEP_FILE = CMakeFiles/NF16_TP4_tp4.dir/tp4.c.o.d
+  FLAGS = -g -std=gnu11 -fdiagnostics-color=always   -pthread
+  INCLUDES = -I/usr/include/gtk-3.0 -I/usr/include/pango-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/atk-1.0 -I/usr/include/freetype2 -I/usr/include/harfbuzz -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/cloudproviders -I/usr/include/webp -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib64/dbus-1.0/include -I/usr/include/fribidi -I/usr/include/libxml2 -I/usr/include/pixman-1 -I/usr/include/libpng16 -I/usr/include/gio-unix-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/sysprof-6
+  OBJECT_DIR = CMakeFiles/NF16_TP4_tp4.dir
+  OBJECT_FILE_DIR = CMakeFiles/NF16_TP4_tp4.dir
 
 
 # =============================================================================
-# Link build statements for STATIC_LIBRARY target TP4
+# Link build statements for STATIC_LIBRARY target NF16_TP4_tp4
 
 
 #############################################
-# Link the static library libTP4.a
+# Link the static library libNF16_TP4_tp4.a
 
-build libTP4.a: C_STATIC_LIBRARY_LINKER__TP4_Debug CMakeFiles/TP4.dir/tp4.c.o
+build libNF16_TP4_tp4.a: C_STATIC_LIBRARY_LINKER__NF16_TP4_tp4_Debug CMakeFiles/NF16_TP4_tp4.dir/tp4.c.o
   LANGUAGE_COMPILE_FLAGS = -g
-  OBJECT_DIR = CMakeFiles/TP4.dir
+  OBJECT_DIR = CMakeFiles/NF16_TP4_tp4.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_FILE = libTP4.a
-  TARGET_PDB = TP4.a.dbg
+  TARGET_FILE = libNF16_TP4_tp4.a
+  TARGET_PDB = NF16_TP4_tp4.a.dbg
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target NF16_TP4_graphicalInterface
+
+
+#############################################
+# Order-only phony target for NF16_TP4_graphicalInterface
+
+build cmake_object_order_depends_target_NF16_TP4_graphicalInterface: phony || CMakeFiles/NF16_TP4_graphicalInterface.dir
+
+build CMakeFiles/NF16_TP4_graphicalInterface.dir/graphicalInterface.c.o: C_COMPILER__NF16_TP4_graphicalInterface_unscanned_Debug /home/iceknith/CLionProjects/NF16/TP/NF16_TP4/graphicalInterface.c || cmake_object_order_depends_target_NF16_TP4_graphicalInterface
+  DEFINES = -DWITH_GZFILEOP
+  DEP_FILE = CMakeFiles/NF16_TP4_graphicalInterface.dir/graphicalInterface.c.o.d
+  FLAGS = -g -std=gnu11 -fdiagnostics-color=always   -pthread
+  INCLUDES = -I/usr/include/gtk-3.0 -I/usr/include/pango-1.0 -I/usr/include/cairo -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/atk-1.0 -I/usr/include/freetype2 -I/usr/include/harfbuzz -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/cloudproviders -I/usr/include/webp -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib64/dbus-1.0/include -I/usr/include/fribidi -I/usr/include/libxml2 -I/usr/include/pixman-1 -I/usr/include/libpng16 -I/usr/include/gio-unix-2.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/sysprof-6
+  OBJECT_DIR = CMakeFiles/NF16_TP4_graphicalInterface.dir
+  OBJECT_FILE_DIR = CMakeFiles/NF16_TP4_graphicalInterface.dir
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target NF16_TP4_graphicalInterface
+
+
+#############################################
+# Link the static library libNF16_TP4_graphicalInterface.a
+
+build libNF16_TP4_graphicalInterface.a: C_STATIC_LIBRARY_LINKER__NF16_TP4_graphicalInterface_Debug CMakeFiles/NF16_TP4_graphicalInterface.dir/graphicalInterface.c.o
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = CMakeFiles/NF16_TP4_graphicalInterface.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = libNF16_TP4_graphicalInterface.a
+  TARGET_PDB = NF16_TP4_graphicalInterface.a.dbg
 
 
 #############################################
@@ -128,7 +167,9 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # =============================================================================
 # Target aliases.
 
-build TP4: phony libTP4.a
+build NF16_TP4_graphicalInterface: phony libNF16_TP4_graphicalInterface.a
+
+build NF16_TP4_tp4: phony libNF16_TP4_tp4.a
 
 # =============================================================================
 # Folder targets.
@@ -138,7 +179,7 @@ build TP4: phony libTP4.a
 #############################################
 # Folder: /home/iceknith/CLionProjects/NF16/TP/NF16_TP4/cmake-build-debug
 
-build all: phony NF16_TP4 libTP4.a
+build all: phony NF16_TP4 libNF16_TP4_tp4.a libNF16_TP4_graphicalInterface.a
 
 # =============================================================================
 # Built-in targets
@@ -147,14 +188,14 @@ build all: phony NF16_TP4 libTP4.a
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeCInformation.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeCommonLanguageInclude.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeGenericSystem.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeInitializeConfigs.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeLanguageInformation.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeSystemSpecificInformation.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeSystemSpecificInitialize.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/CMakeCommonCompilerMacros.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/GNU-C.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/GNU.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-GNU-C.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-GNU.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-Initialize.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/UnixPaths.cmake /home/iceknith/CLionProjects/NF16/TP/NF16_TP4/CMakeLists.txt CMakeCache.txt CMakeFiles/3.27.8/CMakeCCompiler.cmake CMakeFiles/3.27.8/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeCInformation.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeCommonLanguageInclude.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeGenericSystem.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeInitializeConfigs.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeLanguageInformation.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeSystemSpecificInformation.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeSystemSpecificInitialize.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/CMakeCommonCompilerMacros.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/GNU-C.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/GNU.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/FindPackageHandleStandardArgs.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/FindPackageMessage.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/FindPkgConfig.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-GNU-C.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-GNU.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-Initialize.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/UnixPaths.cmake /home/iceknith/CLionProjects/NF16/TP/NF16_TP4/CMakeLists.txt CMakeCache.txt CMakeFiles/3.27.8/CMakeCCompiler.cmake CMakeFiles/3.27.8/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeCInformation.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeCommonLanguageInclude.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeGenericSystem.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeInitializeConfigs.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeLanguageInformation.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeSystemSpecificInformation.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeSystemSpecificInitialize.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/CMakeCommonCompilerMacros.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/GNU-C.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/GNU.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-GNU-C.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-GNU.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-Initialize.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/UnixPaths.cmake /home/iceknith/CLionProjects/NF16/TP/NF16_TP4/CMakeLists.txt CMakeCache.txt CMakeFiles/3.27.8/CMakeCCompiler.cmake CMakeFiles/3.27.8/CMakeSystem.cmake: phony
+build /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeCInformation.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeCommonLanguageInclude.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeGenericSystem.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeInitializeConfigs.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeLanguageInformation.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeSystemSpecificInformation.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/CMakeSystemSpecificInitialize.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/CMakeCommonCompilerMacros.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/GNU-C.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Compiler/GNU.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/FindPackageHandleStandardArgs.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/FindPackageMessage.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/FindPkgConfig.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-GNU-C.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-GNU.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux-Initialize.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/Linux.cmake /home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/share/cmake-3.27/Modules/Platform/UnixPaths.cmake /home/iceknith/CLionProjects/NF16/TP/NF16_TP4/CMakeLists.txt CMakeCache.txt CMakeFiles/3.27.8/CMakeCCompiler.cmake CMakeFiles/3.27.8/CMakeSystem.cmake: phony
 
 
 #############################################
