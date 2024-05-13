@@ -24,3 +24,4 @@ add_library(NF16_TP4_tp4 tp4.c tp4.h)
 add_library(NF16_TP4_graphicalInterface graphicalInterface.c graphicalInterface.h)
 
 target_link_libraries(NF16_TP4 ${GTK3_LIBRARIES})
+target_link_libraries(NF16_TP4 m)

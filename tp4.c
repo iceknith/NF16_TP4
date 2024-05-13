@@ -87,3 +87,15 @@ T_Arbre supprimerElement(T_Arbre abr, int element) {
 void tailleMemoire(T_Arbre abr) {
 
 }
+
+
+
+int hauteurArbre(T_Arbre abr) {
+    if (abr == NULL) return -1;
+
+    int tailleG = hauteurArbre(abr->filsGauche);
+    int tailleD = hauteurArbre(abr->filsDroit);
+
+    if (tailleG > tailleD) return tailleG + 1;
+    return tailleD + 1;
+}

@@ -18,4 +18,7 @@ void afficherSommet(T_Arbre abr);
 void afficherElement(T_Arbre abr);
 T_Arbre supprimerElement(T_Arbre abr, int element);
 void tailleMemoire(T_Arbre abr);
+
+int hauteurArbre(T_Arbre abr);
+
 #endif

@@ -68,7 +68,7 @@ build CMakeFiles/NF16_TP4.dir/main.c.o: C_COMPILER__NF16_TP4_unscanned_Debug /ho
 build NF16_TP4: C_EXECUTABLE_LINKER__NF16_TP4_Debug CMakeFiles/NF16_TP4.dir/main.c.o
   FLAGS = -g
   LINK_FLAGS = -Wl,-export-dynamic
-  LINK_LIBRARIES = -lgtk-3  -lgdk-3  -lz  -lpangocairo-1.0  -lpango-1.0  -lharfbuzz  -latk-1.0  -lcairo-gobject  -lcairo  -lgdk_pixbuf-2.0  -lgio-2.0  -lgobject-2.0  -lglib-2.0
+  LINK_LIBRARIES = -lgtk-3  -lgdk-3  -lz  -lpangocairo-1.0  -lpango-1.0  -lharfbuzz  -latk-1.0  -lcairo-gobject  -lcairo  -lgdk_pixbuf-2.0  -lgio-2.0  -lgobject-2.0  -lglib-2.0  -lm
   OBJECT_DIR = CMakeFiles/NF16_TP4.dir
   POST_BUILD = :
   PRE_LINK = :
