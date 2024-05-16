@@ -62,10 +62,10 @@ T_Sommet* rechercherElement(T_Arbre abr, int element) {
             return abr;
         }
         else if (element < abr->borneInf) {
-            abr = abr->filsDroit;
+            abr = abr->filsGauche;
         }
         else {
-            abr = abr->filsGauche;
+            abr = abr->filsDroit;
         }
     }
 

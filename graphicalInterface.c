@@ -27,7 +27,7 @@ static void activate(){
     if (gtk_builder_add_from_file(builder, "../builder.ui", &error) == 0){
 
         //Si une erreur est survenue
-        g_printerr("Error loading file: %s\n", error->message);
+        g_printerr("Error loading file: %styleContext\n", error->message);
         g_clear_error(&error);
         return;
     }
@@ -44,18 +44,29 @@ static void activate(){
                                      "valider_clicked", G_CALLBACK(valider_clicked),
                                      "draw_event", G_CALLBACK(draw_event),
                                      "filtre_nombre", G_CALLBACK(filtre_nombre),
+                                     "text_entry_activate", G_CALLBACK(text_entry_activate),
                                      "gtk_main_quit", G_CALLBACK(quitter),
                                      NULL);
     gtk_builder_connect_signals(builder, NULL);
     gtk_widget_show_all(GTK_WIDGET(window));
     //gtk_window_maximize(GTK_WINDOW(window));
 
+    //On trouve la couleur de base du système pour l'utiliser lors du dessin de l'arbre
+    GtkStyleContext *styleContext = gtk_widget_get_style_context(GTK_WIDGET(window));
+    //Initialise color
+    unselectedColor = malloc(sizeof(struct _GdkRGBA));
+    unselectedColor->alpha = 0;
+    unselectedColor->red = 0;
+    unselectedColor->green = 0;
+    unselectedColor->blue = 0;
+
+    gtk_style_context_get_color(styleContext, GTK_STATE_FLAG_NORMAL, unselectedColor);
+
     //On supprime le builder, car on n'en as plus besoin
     g_object_unref(builder);
 }
 
 static void inserer_elements(GtkWidget *widget, gpointer data){
-
     state = 1;
     counter = -1;
 
@@ -68,19 +79,60 @@ static void inserer_elements(GtkWidget *widget, gpointer data){
     gtk_label_set_text(l, "Combien de nombres voulez-vous insérer dans l'arbre ?");
 
     //Changement du widget vers lequel le popup va pointer
-    GtkWidget *button = gtk_grid_get_child_at(
-            GTK_GRID(gtk_grid_get_child_at(data, 0, 0)), 0, 0);
-    gtk_popover_set_relative_to(pop, button);
+    gtk_popover_set_relative_to(pop, widget);
+
+    //Raffraichir le canvas
+    GtkWidget *canvas = gtk_bin_get_child(GTK_BIN(gtk_bin_get_child(
+            GTK_BIN(gtk_grid_get_child_at(data, 0, 2)))));
+    gtk_widget_queue_draw(canvas);
 
     gtk_popover_popup(pop);
 }
 
 static void rechercher_element(GtkWidget *widget, gpointer data){
-    g_print("Recherche d'un élement\n");
+    state = 2;
+    counter = -1;
+
+    //Changement du placeholder text
+    GtkGrid *g = GTK_GRID(gtk_bin_get_child(GTK_BIN(pop)));
+    GtkEntry *e = GTK_ENTRY(gtk_grid_get_child_at(g,0, 1));
+    GtkLabel *l = GTK_LABEL(gtk_grid_get_child_at(g,0, 0));
+    gtk_entry_buffer_delete_text(gtk_entry_get_buffer(e), 0, gtk_entry_get_text_length(e));
+    gtk_entry_set_placeholder_text(e,"Quel élément voulez-vous chercher ?");
+    gtk_label_set_text(l, "Quel élément voulez-vous chercher ?");
+
+    //Changement du widget vers lequel le popup va pointer
+    gtk_popover_set_relative_to(pop, widget);
+
+    //Raffraichir le canvas
+    GtkWidget *canvas = gtk_bin_get_child(GTK_BIN(gtk_bin_get_child(
+            GTK_BIN(gtk_grid_get_child_at(data, 0, 2)))));
+    gtk_widget_queue_draw(canvas);
+
+    gtk_popover_popup(pop);
 }
 
 static void supprimer_element(GtkWidget *widget, gpointer data){
-    g_print("Supression d'un élément\n");
+    state = 3;
+    counter = -1;
+
+    //Changement du placeholder text
+    GtkGrid *g = GTK_GRID(gtk_bin_get_child(GTK_BIN(pop)));
+    GtkEntry *e = GTK_ENTRY(gtk_grid_get_child_at(g,0, 1));
+    GtkLabel *l = GTK_LABEL(gtk_grid_get_child_at(g,0, 0));
+    gtk_entry_buffer_delete_text(gtk_entry_get_buffer(e), 0, gtk_entry_get_text_length(e));
+    gtk_entry_set_placeholder_text(e,"Combien d'éléments voulez-vous supprimer ?");
+    gtk_label_set_text(l, "Combien d'éléments voulez-vous supprimer ?");
+
+    //Changement du widget vers lequel le popup va pointer
+    gtk_popover_set_relative_to(pop, widget);
+
+    //Raffraichir le canvas
+    GtkWidget *canvas = gtk_bin_get_child(GTK_BIN(gtk_bin_get_child(
+            GTK_BIN(gtk_grid_get_child_at(data, 0, 2)))));
+    gtk_widget_queue_draw(canvas);
+
+    gtk_popover_popup(pop);
 }
 
 static void valider_clicked(GtkWidget *widget, gpointer data){
@@ -112,9 +164,44 @@ static void valider_clicked(GtkWidget *widget, gpointer data){
         gtk_widget_queue_draw(canvas);
         gtk_entry_buffer_delete_text(gtk_entry_get_buffer(e), 0, gtk_entry_get_text_length(e));
     }
+    else if (state == 2){
+        state = 0;
+
+        arbreSelectionne = rechercherElement(mainArbre, pop_entry_get_text_value());
+
+        gtk_popover_popdown(pop);
+        gtk_widget_queue_draw(canvas);
+        gtk_entry_buffer_delete_text(gtk_entry_get_buffer(e), 0, gtk_entry_get_text_length(e));
+    }
+    else if (state == 3){
+
+        if (counter == -1){
+            counter = pop_entry_get_text_value();
+
+            gtk_entry_set_placeholder_text(e,"Quels sont les sommets que vous voulez supprimer de l'arbre ?");
+            gtk_label_set_text(l, "Entrez un sommet à supprimer de l'arbre");
+
+        }
+        else {
+            counter--;
+            mainArbre = supprimerElement(mainArbre, pop_entry_get_text_value());
+        }
+
+        if (counter == 0){
+            state = 0;
+            gtk_popover_popdown(pop);
+        }
+
+        gtk_widget_queue_draw(canvas);
+        gtk_entry_buffer_delete_text(gtk_entry_get_buffer(e), 0, gtk_entry_get_text_length(e));
+    }
 }
 
 static void draw_event(GtkWidget *widget, cairo_t *cr, gpointer data){
+    if (unselectedColor == NULL){
+
+    }
+
     if (mainArbre != NULL){
         int h = hauteurArbre(mainArbre) + 1;
         gint width = TEXT_DISTANCE_X * pow(2,  h) + 2 * MARGIN_X;
@@ -142,6 +229,10 @@ static void filtre_nombre(GtkEditable *editable, const gchar *text, gint length,
     }
 }
 
+static void text_entry_activate(GtkEditable *editable, gpointer *data){
+    g_signal_emit_by_name(data, "clicked");
+}
+
 static void quitter(GtkWidget *widget, GdkEvent *event, gpointer data){
     g_print("libération de l'espace");
     gtk_main_quit();
@@ -159,11 +250,11 @@ static int pop_entry_get_text_value(){
 static void dessiner_arbre(cairo_t *cr, T_Arbre arbre, double posX, double posY){
     dessiner_sommet(cr, arbre, posX, posY);
 
-    cairo_set_source_rgb(cr, LINE_R, LINE_G, LINE_B);
-    cairo_set_line_width(cr, LINE_WIDTH);
-
     double maxFeuilles = pow(2, hauteurArbre(arbre));
     double intervalleFeuillesX = TEXT_DISTANCE_X * maxFeuilles;
+
+    gdk_cairo_set_source_rgba(cr, unselectedColor);
+    cairo_set_line_width(cr, LINE_WIDTH);
 
     if (arbre->filsDroit != NULL){
         dessiner_arbre(cr, arbre->filsDroit, posX + intervalleFeuillesX/2, posY + TEXT_DISTANCE_Y);
@@ -187,7 +278,7 @@ static void dessiner_sommet(cairo_t *cr, T_Arbre arbre, double posX, double posY
     }
     else{
         cairo_set_font_size (cr, UNSELECTED_TXT_SIZE);
-        cairo_set_source_rgb(cr, UNSELECTED_TXT_R, UNSELECTED_TXT_G, UNSELECTED_TXT_B);
+        gdk_cairo_set_source_rgba(cr, unselectedColor);
     }
 
     cairo_text_extents_t te;
