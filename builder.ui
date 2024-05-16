@@ -149,6 +149,7 @@
             <property name="width-chars">17</property>
             <property name="xalign">0.5</property>
             <property name="input-purpose">number</property>
+            <signal name="activate" handler="text_entry_activate" object="valider_txt" swapped="no"/>
             <signal name="insert-text" handler="filtre_nombre" swapped="no"/>
           </object>
           <packing>

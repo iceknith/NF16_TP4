@@ -10,15 +10,9 @@
 #define MARGIN_X 100
 
 #define LINE_WIDTH 5
-#define LINE_R 0.9
-#define LINE_G 0.9
-#define LINE_B 0.9
 #define TEXT_LINE_DIST_Y 25
 
 #define UNSELECTED_TXT_SIZE 40
-#define UNSELECTED_TXT_R 0.9
-#define UNSELECTED_TXT_G 0.9
-#define UNSELECTED_TXT_B 0.9
 
 #define SELECTED_TXT_SIZE 45
 #define SELECTED_TXT_R 0.9
@@ -27,6 +21,7 @@
 
 GtkPopover *pop;
 gint prevCanvasWidth;
+struct _GdkRGBA *unselectedColor = NULL;
 
 T_Arbre mainArbre;
 T_Arbre arbreSelectionne;
@@ -45,6 +40,7 @@ static void supprimer_element(GtkWidget *widget, gpointer data);
 static void valider_clicked(GtkWidget *widget, gpointer data);
 static void draw_event(GtkWidget *widget, cairo_t *cr, gpointer data);
 static void filtre_nombre(GtkEditable *editable, const gchar *text, gint length, gint *position, gpointer data);
+static void text_entry_activate(GtkEditable *editable, gpointer *data);
 static void quitter(GtkWidget *widget, GdkEvent *event, gpointer data);
 
 //---Utilities functions---//
