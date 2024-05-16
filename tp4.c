@@ -76,7 +76,7 @@ T_Sommet* rechercherElement(T_Arbre abr, int element) {
 T_Sommet* rechercherBis(T_Arbre abr, int element, T_Sommet *pere) {
     pere = NULL;
     if (abr == NULL) return NULL;
-    
+
     while (abr != NULL) {
         if (element >= abr->borneInf && element <= abr->borneSup) {
             return abr;
@@ -115,7 +115,7 @@ T_Arbre supprimerElement(T_Arbre abr, int element) {
     if (element == sommetCible->borneInf) {
         sommetCible->borneInf ++;
         return abr;
-    } 
+    }
     else if (element == sommetCible->borneSup) {
         sommetCible->borneSup--;
         return abr;
@@ -129,7 +129,7 @@ T_Arbre supprimerElement(T_Arbre abr, int element) {
             sommetCible->borneInf = element + 1;
             sommetCible->filsGauche = newSommet;
             return abr;
-        } 
+        }
         else {
             T_Sommet *newSommet = creerSommet(sommetCible->borneSup);
             newSommet->borneInf = element + 1;
@@ -172,13 +172,15 @@ T_Arbre supprimerElement(T_Arbre abr, int element) {
         sommetCible->borneInf = succsesseurCible->borneInf;
         sommetCible->borneSup = succsesseurCible->borneSup;
         free(succsesseurCible);
-        return abr; 
+        return abr;
     }
 }
 
-void tailleMemoire(T_Arbre abr) {
-
+unsigned long tailleMemoire(T_Arbre abr) {
+    return sizeof(T_Sommet) * nombreNoeuds(abr);
 }
+
+
 
 int hauteurArbre(T_Arbre abr) {
     if (abr == NULL) return -1;
@@ -199,4 +201,9 @@ T_Sommet *minimum(T_Arbre abr, T_Sommet *pere) {
         abr = abr->filsDroit;
     }
     return abr;
+}
+int nombreNoeuds(T_Arbre abr) {
+    if (abr == NULL) return 0;
+
+    return nombreNoeuds(abr->filsGauche) + nombreNoeuds(abr->filsDroit) + 1;
 }

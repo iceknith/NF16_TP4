@@ -67,17 +67,6 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="result_label">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="margin-top">15</property>
-          </object>
-          <packing>
-            <property name="left-attach">0</property>
-            <property name="top-attach">1</property>
-          </packing>
-        </child>
-        <child>
           <object class="GtkScrolledWindow" id="scrolledWindow">
             <property name="visible">True</property>
             <property name="can-focus">True</property>
@@ -89,13 +78,13 @@
                 <property name="vexpand">True</property>
                 <property name="shadow-type">none</property>
                 <child>
-                  <object class="GtkDrawingArea" id="canvas">
+                  <object class="GtkDrawingArea" id="main_canvas">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="margin-top">10</property>
                     <property name="margin-bottom">5</property>
                     <property name="vexpand">True</property>
-                    <signal name="draw" handler="draw_event" object="scrolledWindow" swapped="no"/>
+                    <signal name="draw" handler="draw_main_canvas_event" object="scrolledWindow" swapped="no"/>
                   </object>
                 </child>
               </object>
@@ -104,6 +93,18 @@
           <packing>
             <property name="left-attach">0</property>
             <property name="top-attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkDrawingArea" id="gui_canvas">
+            <property name="height-request">100</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <signal name="draw" handler="draw_gui_canvas_event" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">1</property>
           </packing>
         </child>
       </object>

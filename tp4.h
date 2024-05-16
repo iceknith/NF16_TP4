@@ -17,10 +17,11 @@ T_Sommet *rechercherElement(T_Arbre abr, int element);
 void afficherSommet(T_Arbre abr);
 void afficherElement(T_Arbre abr);
 T_Arbre supprimerElement(T_Arbre abr, int element);
-void tailleMemoire(T_Arbre abr);
+unsigned long tailleMemoire(T_Arbre abr);
 
 T_Sommet *rechercherBis(T_Arbre abr, int element, T_Sommet *pere);
 int hauteurArbre(T_Arbre abr);
 T_Sommet *minimum(T_Arbre abr);
+int nombreNoeuds(T_Arbre abr);
 
 #endif

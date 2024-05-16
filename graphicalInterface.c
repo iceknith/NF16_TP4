@@ -42,14 +42,15 @@ static void activate(){
                                      "rechercher_element", G_CALLBACK(rechercher_element),
                                      "supprimer_element", G_CALLBACK(supprimer_element),
                                      "valider_clicked", G_CALLBACK(valider_clicked),
-                                     "draw_event", G_CALLBACK(draw_event),
+                                     "draw_main_canvas_event", G_CALLBACK(draw_main_canvas_event),
+                                     "draw_gui_canvas_event", G_CALLBACK(draw_gui_canvas_event),
                                      "filtre_nombre", G_CALLBACK(filtre_nombre),
                                      "text_entry_activate", G_CALLBACK(text_entry_activate),
                                      "gtk_main_quit", G_CALLBACK(quitter),
                                      NULL);
     gtk_builder_connect_signals(builder, NULL);
     gtk_widget_show_all(GTK_WIDGET(window));
-    //gtk_window_maximize(GTK_WINDOW(window));
+    gtk_window_maximize(GTK_WINDOW(window));
 
     //On trouve la couleur de base du système pour l'utiliser lors du dessin de l'arbre
     GtkStyleContext *styleContext = gtk_widget_get_style_context(GTK_WIDGET(window));
@@ -81,10 +82,12 @@ static void inserer_elements(GtkWidget *widget, gpointer data){
     //Changement du widget vers lequel le popup va pointer
     gtk_popover_set_relative_to(pop, widget);
 
-    //Raffraichir le canvas
-    GtkWidget *canvas = gtk_bin_get_child(GTK_BIN(gtk_bin_get_child(
+    //Raffraichir les canvas
+    GtkWidget *main_canvas = gtk_bin_get_child(GTK_BIN(gtk_bin_get_child(
             GTK_BIN(gtk_grid_get_child_at(data, 0, 2)))));
-    gtk_widget_queue_draw(canvas);
+    GtkWidget *gui_canvas = gtk_grid_get_child_at(data, 0, 1);
+    gtk_widget_queue_draw(main_canvas);
+    gtk_widget_queue_draw(gui_canvas);
 
     gtk_popover_popup(pop);
 }
@@ -104,10 +107,12 @@ static void rechercher_element(GtkWidget *widget, gpointer data){
     //Changement du widget vers lequel le popup va pointer
     gtk_popover_set_relative_to(pop, widget);
 
-    //Raffraichir le canvas
-    GtkWidget *canvas = gtk_bin_get_child(GTK_BIN(gtk_bin_get_child(
+    //Raffraichir les canvas
+    GtkWidget *main_canvas = gtk_bin_get_child(GTK_BIN(gtk_bin_get_child(
             GTK_BIN(gtk_grid_get_child_at(data, 0, 2)))));
-    gtk_widget_queue_draw(canvas);
+    GtkWidget *gui_canvas = gtk_grid_get_child_at(data, 0, 1);
+    gtk_widget_queue_draw(main_canvas);
+    gtk_widget_queue_draw(gui_canvas);
 
     gtk_popover_popup(pop);
 }
@@ -127,10 +132,12 @@ static void supprimer_element(GtkWidget *widget, gpointer data){
     //Changement du widget vers lequel le popup va pointer
     gtk_popover_set_relative_to(pop, widget);
 
-    //Raffraichir le canvas
-    GtkWidget *canvas = gtk_bin_get_child(GTK_BIN(gtk_bin_get_child(
+    //Raffraichir les canvas
+    GtkWidget *main_canvas = gtk_bin_get_child(GTK_BIN(gtk_bin_get_child(
             GTK_BIN(gtk_grid_get_child_at(data, 0, 2)))));
-    gtk_widget_queue_draw(canvas);
+    GtkWidget *gui_canvas = gtk_grid_get_child_at(data, 0, 1);
+    gtk_widget_queue_draw(main_canvas);
+    gtk_widget_queue_draw(gui_canvas);
 
     gtk_popover_popup(pop);
 }
@@ -140,8 +147,6 @@ static void valider_clicked(GtkWidget *widget, gpointer data){
     GtkGrid *g = GTK_GRID(gtk_bin_get_child(GTK_BIN(pop)));
     GtkEntry *e = GTK_ENTRY(gtk_grid_get_child_at(g,0, 1));
     GtkLabel *l = GTK_LABEL(gtk_grid_get_child_at(g,0, 0));
-    GtkWidget *canvas = gtk_bin_get_child(GTK_BIN(gtk_bin_get_child(
-                    GTK_BIN(gtk_grid_get_child_at(data, 0, 2)))));
 
     if (state == 1){
         if (counter == -1){
@@ -161,16 +166,15 @@ static void valider_clicked(GtkWidget *widget, gpointer data){
             gtk_popover_popdown(pop);
         }
 
-        gtk_widget_queue_draw(canvas);
         gtk_entry_buffer_delete_text(gtk_entry_get_buffer(e), 0, gtk_entry_get_text_length(e));
     }
     else if (state == 2){
         state = 0;
 
-        arbreSelectionne = rechercherElement(mainArbre, pop_entry_get_text_value());
+        nombreSelectionne = pop_entry_get_text_value();
+        arbreSelectionne = rechercherElement(mainArbre, nombreSelectionne);
 
         gtk_popover_popdown(pop);
-        gtk_widget_queue_draw(canvas);
         gtk_entry_buffer_delete_text(gtk_entry_get_buffer(e), 0, gtk_entry_get_text_length(e));
     }
     else if (state == 3){
@@ -191,13 +195,17 @@ static void valider_clicked(GtkWidget *widget, gpointer data){
             state = 0;
             gtk_popover_popdown(pop);
         }
-
-        gtk_widget_queue_draw(canvas);
-        gtk_entry_buffer_delete_text(gtk_entry_get_buffer(e), 0, gtk_entry_get_text_length(e));
     }
+
+    //Raffraichir les canvas
+    GtkWidget *main_canvas = gtk_bin_get_child(GTK_BIN(gtk_bin_get_child(
+            GTK_BIN(gtk_grid_get_child_at(data, 0, 2)))));
+    GtkWidget *gui_canvas = gtk_grid_get_child_at(data, 0, 1);
+    gtk_widget_queue_draw(main_canvas);
+    gtk_widget_queue_draw(gui_canvas);
 }
 
-static void draw_event(GtkWidget *widget, cairo_t *cr, gpointer data){
+static void draw_main_canvas_event(GtkWidget *widget, cairo_t *cr, gpointer data){
     if (unselectedColor == NULL){
 
     }
@@ -218,6 +226,45 @@ static void draw_event(GtkWidget *widget, cairo_t *cr, gpointer data){
 
         dessiner_arbre(cr, mainArbre, (double)gtk_widget_get_allocated_width(widget)/2, 100);
     }
+}
+
+static void draw_gui_canvas_event(GtkWidget *widget, cairo_t *cr, gpointer data){
+
+    double* posX = malloc(sizeof(double));
+    *posX = GUI_TEXT_MARGIN_X;
+
+    //Dessiner les éléments de la liste
+    cairo_set_font_size (cr, SMALL_TXT_SIZE);
+    gdk_cairo_set_source_rgba(cr, unselectedColor);
+    cairo_text_extents_t te;
+
+    cairo_text_extents (cr, "Voici les éléments de l'arbre: ", &te);
+    cairo_move_to (cr, *posX,
+                   GUI_TEXT_MARGIN_Y - te.y_bearing - te.height / 2);
+    cairo_show_text (cr, "Voici les éléments de l'arbre: ");
+    *posX += te.x_bearing + te.width + GUI_TEXT_DIST_X;
+
+    dessiner_liste_element(cr, mainArbre, posX, GUI_TEXT_MARGIN_Y);
+
+    //Dessiner le nombre de place occupé
+    *posX += GUI_TEXT_MARGIN_X;
+    char text[45];
+    sprintf(text, "Voici la taille occupée par l'arbre: %lu octets", tailleMemoire(mainArbre));
+    cairo_set_font_size (cr, SMALL_TXT_SIZE);
+    gdk_cairo_set_source_rgba(cr, unselectedColor);
+
+    cairo_text_extents (cr, text, &te);
+    double new_posX = gtk_widget_get_allocated_width(widget) - GUI_TEXT_MARGIN_X - te.x_bearing - te.width;
+
+    if (*posX > new_posX){
+        cairo_move_to (cr, *posX,GUI_TEXT_MARGIN_Y - te.y_bearing - te.height / 2);
+    }
+    else {
+        cairo_move_to (cr,new_posX,GUI_TEXT_MARGIN_Y - te.y_bearing - te.height / 2);
+    }
+
+    cairo_show_text (cr, text);
+    *posX += te.x_bearing + te.width + GUI_TEXT_DIST_X;
 }
 
 static void filtre_nombre(GtkEditable *editable, const gchar *text, gint length, gint *position, gpointer data){
@@ -245,6 +292,34 @@ static int pop_entry_get_text_value(){
     int len = gtk_editable_get_position(e);
     if (len == 0) return 0;
     return atoi(gtk_editable_get_chars(e, 0, len));
+}
+
+static void dessiner_liste_element(cairo_t *cr, T_Arbre arbre, double *posX, double posY){
+    if (arbre == NULL) return;
+
+    dessiner_liste_element(cr, arbre->filsGauche, posX, posY);
+
+    for (int i = arbre->borneInf; i <= arbre->borneSup; i++){
+        if (i == nombreSelectionne){
+            cairo_set_font_size (cr, SMALL_SELECTED_TXT_SIZE);
+            cairo_set_source_rgb(cr, SELECTED_TXT_R, SELECTED_TXT_G, SELECTED_TXT_B);
+        }
+        else{
+            cairo_set_font_size (cr, SMALL_TXT_SIZE);
+            gdk_cairo_set_source_rgba(cr, unselectedColor);
+        }
+
+        cairo_text_extents_t te;
+        char text[9];
+        sprintf(text, "%d", i);
+
+        cairo_text_extents (cr, text, &te);
+        cairo_move_to (cr,*posX,posY - te.y_bearing - te.height/2);
+        *posX += te.x_bearing + te.width + GUI_TEXT_DIST_X;
+        cairo_show_text (cr, text);
+    }
+
+    dessiner_liste_element(cr, arbre->filsDroit, posX, posY);
 }
 
 static void dessiner_arbre(cairo_t *cr, T_Arbre arbre, double posX, double posY){
