@@ -1,5 +1,0 @@
-/home/iceknith/CLionProjects/NF16/TP/NF16_TP4/cmake-build-debug/CMakeFiles/NF16_TP4.dir
-/home/iceknith/CLionProjects/NF16/TP/NF16_TP4/cmake-build-debug/CMakeFiles/NF16_TP4_tp4.dir
-/home/iceknith/CLionProjects/NF16/TP/NF16_TP4/cmake-build-debug/CMakeFiles/NF16_TP4_graphicalInterface.dir
-/home/iceknith/CLionProjects/NF16/TP/NF16_TP4/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/iceknith/CLionProjects/NF16/TP/NF16_TP4/cmake-build-debug/CMakeFiles/rebuild_cache.dir
