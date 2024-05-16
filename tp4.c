@@ -166,11 +166,14 @@ T_Arbre supprimerElement(T_Arbre abr, int element) {
         }
     }
     else {
-        T_Sommet *succsesseurCible = minimum(sommetCible);
-        //En construction
+        T_Sommet *pereSuccsesseur = NULL;
+        T_Sommet *succsesseurCible = minimum(sommetCible, pereSuccsesseur);
+        pereSuccsesseur->filsGauche = succsesseurCible->filsDroit;
+        sommetCible->borneInf = succsesseurCible->borneInf;
+        sommetCible->borneSup = succsesseurCible->borneSup;
+        free(succsesseurCible);
+        return abr; 
     }
-
-
 }
 
 void tailleMemoire(T_Arbre abr) {
@@ -187,8 +190,12 @@ int hauteurArbre(T_Arbre abr) {
     return tailleD + 1;
 }
 
-T_Sommet *minimum(T_Arbre abr) {
+T_Sommet *minimum(T_Arbre abr, T_Sommet *pere) {
+    pere = NULL;
+    if (abr == NULL) return NULL;
+
     while (abr->filsDroit != NULL) {
+        pere = abr;
         abr = abr->filsDroit;
     }
     return abr;
