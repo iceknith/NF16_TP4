@@ -19,9 +19,11 @@ void afficherElement(T_Arbre abr);
 T_Arbre supprimerElement(T_Arbre abr, int element);
 unsigned long tailleMemoire(T_Arbre abr);
 
-T_Sommet *rechercherBis(T_Arbre abr, int element, T_Sommet *pere);
+T_Sommet *rechercherBis(T_Arbre abr, int element, T_Sommet **pere);
+void supprimerNoeud(T_Sommet *cible, T_Sommet **pere);
+void separerIntervalle(T_Sommet *cible, int element);
 int hauteurArbre(T_Arbre abr);
-T_Sommet *minimum(T_Arbre abr, T_Sommet *pere);
+T_Sommet *minimum(T_Arbre abr, T_Sommet **pere);
 int nombreNoeuds(T_Arbre abr);
 
 #endif

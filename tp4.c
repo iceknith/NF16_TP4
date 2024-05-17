@@ -73,8 +73,8 @@ T_Sommet* rechercherElement(T_Arbre abr, int element) {
     return NULL;
 }
 
-T_Sommet* rechercherBis(T_Arbre abr, int element, T_Sommet *pere) {
-    pere = NULL;
+T_Sommet* rechercherBis(T_Arbre abr, int element, T_Sommet **pere) {
+    *pere = NULL;
     if (abr == NULL) return NULL;
 
     while (abr != NULL) {
@@ -82,7 +82,7 @@ T_Sommet* rechercherBis(T_Arbre abr, int element, T_Sommet *pere) {
             return abr;
         }
 
-        pere = abr;
+        *pere = abr;
         if (element < abr->borneInf) {
             abr = abr->filsGauche;
         }
@@ -90,7 +90,7 @@ T_Sommet* rechercherBis(T_Arbre abr, int element, T_Sommet *pere) {
             abr = abr->filsDroit;
         }
     }
-    pere = NULL;
+    *pere = NULL;
     return NULL;
 }
 
@@ -102,76 +102,87 @@ void afficherElement(T_Arbre abr) {
 
 }
 
-T_Arbre supprimerElement(T_Arbre abr, int element) {
-    if (abr == NULL) return NULL;
-
-    T_Sommet *pereCible = NULL;
-    T_Sommet *sommetCible = rechercherBis(abr, element, pereCible);
-
-    if (sommetCible == NULL) return abr;
-
-    //--Cas où l'intervalle n'est pas réduit à un élément--//
-    //Cas ou l'éléments est l'une des bornes de l'intervalle
-    if (element == sommetCible->borneInf) {
-        sommetCible->borneInf ++;
-        return abr;
-    }
-    else if (element == sommetCible->borneSup) {
-        sommetCible->borneSup--;
-        return abr;
-    }
-    //Cas ou l'élément est contenue dans l'intervalle
-    if (sommetCible->borneInf < element && element < sommetCible->borneSup) {
-        if (hauteurArbre(sommetCible->filsGauche) <= hauteurArbre(sommetCible->filsDroit)) {
-            T_Sommet *newSommet = creerSommet(sommetCible->borneInf);
-            newSommet->borneSup = element - 1;
-            newSommet->filsGauche = sommetCible->filsGauche;
-            sommetCible->borneInf = element + 1;
-            sommetCible->filsGauche = newSommet;
-            return abr;
+void supprimerNoeud(T_Sommet *cible, T_Sommet **pere) {
+    if (cible->filsDroit == NULL) {
+        if ((*pere)->filsGauche == cible) {
+            (*pere)->filsGauche = cible->filsGauche;
+            free(cible);
+            return;
         }
         else {
-            T_Sommet *newSommet = creerSommet(sommetCible->borneSup);
-            newSommet->borneInf = element + 1;
-            newSommet->filsDroit = sommetCible->filsDroit;
-            sommetCible->borneSup = element - 1;
-            sommetCible->filsDroit = newSommet;
-            return abr;
+            (*pere)->filsDroit = cible->filsGauche;
+            free(cible);
+            return;
         }
     }
-
-    //--Cas ou l'intervalle est réduit à un unique élément--//
-    if (sommetCible->filsDroit == NULL) {
-        if (pereCible->filsGauche == sommetCible) {
-            pereCible->filsGauche = sommetCible->filsGauche;
-            free(sommetCible);
-            return abr;
+    if (cible->filsGauche == NULL) {
+        if ((*pere)->filsGauche == cible) {
+            (*pere)->filsGauche = cible->filsDroit;
+            free(cible);
+            return;
         }
         else {
-            pereCible->filsDroit = sommetCible->filsGauche;
-            free(sommetCible);
-            return abr;
-        }
-    }
-    else if (sommetCible->filsGauche == NULL) {
-        if (pereCible->filsGauche == sommetCible) {
-            pereCible->filsGauche = sommetCible->filsDroit;
-            free(sommetCible);
-            return abr;
-        }
-        else {
-            pereCible->filsDroit = sommetCible->filsDroit;
-            free(sommetCible);
-            return abr;
+            (*pere)->filsDroit = cible->filsDroit;
+            free(cible);
+            return;
         }
     }
     else {
         T_Sommet *pereSuccsesseur = NULL;
-        T_Sommet *succsesseurCible = minimum(sommetCible, pereSuccsesseur);
-        pereSuccsesseur->filsGauche = succsesseurCible->filsDroit;
-        sommetCible->borneInf = succsesseurCible->borneInf;
-        sommetCible->borneSup = succsesseurCible->borneSup;
-        free(succsesseurCible);
+        T_Sommet *succsesseurCible = minimum(cible, &pereSuccsesseur);
+        cible->borneInf = succsesseurCible->borneInf;
+        cible->borneSup = succsesseurCible->borneSup;
+        supprimerNoeud(succsesseurCible, &pereSuccsesseur);
+    }
+}
+
+void separerIntervalle(T_Sommet *cible, int element) {
+    if (hauteurArbre(cible->filsGauche) <= hauteurArbre(cible->filsDroit)) {
+        T_Sommet *newSommet = creerSommet(cible->borneInf);
+        newSommet->borneSup = element - 1;
+        newSommet->filsGauche = cible->filsGauche;
+        cible->borneInf = element + 1;
+        cible->filsGauche = newSommet;
+        return;
+    }
+    else {
+        T_Sommet *newSommet = creerSommet(cible->borneSup);
+        newSommet->borneInf = element + 1;
+        newSommet->filsDroit = cible->filsDroit;
+        cible->borneSup = element - 1;
+        cible->filsDroit = newSommet;
+        return;
+    }
+}
+
+T_Arbre supprimerElement(T_Arbre abr, int element) {
+    if (abr == NULL) return NULL;
+
+    T_Sommet *pereCible = NULL;
+    T_Sommet *sommetCible = rechercherBis(abr, element, &pereCible);
+
+    if (sommetCible == NULL) return abr;
+
+    //--Cas où l'intervalle n'est pas réduit à un élément--//
+    if (sommetCible->borneSup != sommetCible->borneInf) {
+        //Cas ou l'éléments est l'une des bornes de l'intervalle
+        if (element == sommetCible->borneInf) {
+            sommetCible->borneInf ++;
+            return abr;
+        }
+        if (element == sommetCible->borneSup) {
+            sommetCible->borneSup--;
+            return abr;
+        }
+        //Cas ou l'élément est contenue dans l'intervalle
+        else {
+            separarerIntervalle(sommetCible, element);
+            return abr;
+        }
+    }
+    //--Cas ou l'intervalle est réduit à un unique élément--//
+    else {
+        supprimerNoeud(sommetCible, &pereCible);
         return abr;
     }
 }
@@ -192,12 +203,12 @@ int hauteurArbre(T_Arbre abr) {
     return tailleD + 1;
 }
 
-T_Sommet *minimum(T_Arbre abr, T_Sommet *pere) {
-    pere = NULL;
+T_Sommet* minimum(T_Arbre abr, T_Sommet **pere) {
+    *pere = NULL;
     if (abr == NULL) return NULL;
 
-    while (abr->filsDroit != NULL) {
-        pere = abr;
+    while (abr->filsGauche != NULL) {
+        *pere = abr;
         abr = abr->filsDroit;
     }
     return abr;
