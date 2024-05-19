@@ -176,7 +176,7 @@ T_Arbre supprimerElement(T_Arbre abr, int element) {
         }
         //Cas ou l'élément est contenue dans l'intervalle
         else {
-            separarerIntervalle(sommetCible, element);
+            separerIntervalle(sommetCible, element);
             return abr;
         }
     }
