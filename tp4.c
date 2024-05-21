@@ -27,10 +27,12 @@ T_Arbre insererElement(T_Arbre abr, int element) {
         //Si element est consecutif a un ensemble, on change les bornes de l'ensemble
         if (element == abrIteSuiv->borneInf - 1){
             abrIteSuiv->borneInf--;
+            fusionnerSommet(abr, abrIteSuiv, abrIteSuiv->borneInf-1);
             return abr;
         }
         else if (element == abrIteSuiv->borneSup + 1){
             abrIteSuiv->borneSup++;
+            fusionnerSommet(abr, abrIteSuiv, abrIteSuiv->borneSup+1);
             return abr;
         }
         //Sinon, on précise notre recherche
@@ -73,7 +75,7 @@ T_Sommet* rechercherElement(T_Arbre abr, int element) {
     return NULL;
 }
 
-T_Sommet* rechercherBis(T_Arbre abr, int element, T_Sommet **pere) {
+T_Sommet* rechercherElementAvecPere(T_Arbre abr, int element, T_Sommet **pere) {
     *pere = NULL;
     if (abr == NULL) return NULL;
 
@@ -159,7 +161,7 @@ T_Arbre supprimerElement(T_Arbre abr, int element) {
     if (abr == NULL) return NULL;
 
     T_Sommet *pereCible = NULL;
-    T_Sommet *sommetCible = rechercherBis(abr, element, &pereCible);
+    T_Sommet *sommetCible = rechercherElementAvecPere(abr, element, &pereCible);
 
     if (sommetCible == NULL) return abr;
 
@@ -191,7 +193,24 @@ unsigned long tailleMemoire(T_Arbre abr) {
     return sizeof(T_Sommet) * nombreNoeuds(abr);
 }
 
+void fusionnerSommet(T_Arbre abr, T_Sommet *cible, int element) {
+    if (abr == NULL) return;
 
+    T_Sommet **cible2Pere = malloc(sizeof (T_Sommet*));
+    T_Sommet *cible2 = rechercherElementAvecPere(abr, element, cible2Pere);
+
+    if (cible2 == NULL) return;
+
+    if (cible->borneSup + 1 == cible2->borneInf) {
+        cible->borneSup = cible2->borneSup;
+    }
+    else if (cible2->borneSup + 1 == cible->borneInf) {
+        cible->borneInf = cible2->borneInf;
+    }
+    else return;
+
+    supprimerNoeud(cible2, cible2Pere);
+}
 
 int hauteurArbre(T_Arbre abr) {
     if (abr == NULL) return -1;
@@ -213,6 +232,7 @@ T_Sommet* minimum(T_Arbre abr, T_Sommet **pere) {
     }
     return abr;
 }
+
 int nombreNoeuds(T_Arbre abr) {
     if (abr == NULL) return 0;
 

@@ -195,6 +195,8 @@ static void valider_clicked(GtkWidget *widget, gpointer data){
             state = 0;
             gtk_popover_popdown(pop);
         }
+
+        gtk_entry_buffer_delete_text(gtk_entry_get_buffer(e), 0, gtk_entry_get_text_length(e));
     }
 
     //Raffraichir les canvas
