@@ -2,6 +2,7 @@
 #define TP4_HEAD
 
 typedef struct Sommet T_Sommet;
+typedef struct Classique Classique;
 typedef T_Sommet *T_Arbre;
 
 struct Sommet {
@@ -9,6 +10,12 @@ struct Sommet {
     int borneSup;
     struct Sommet *filsGauche;
     struct Sommet *filsDroit;
+};
+
+struct Classique {
+    int valeur;
+    struct AutreSommet *filsGauche;
+    struct AutreSommet *filsDroit;
 };
 
 T_Sommet *creerSommet(int element);

@@ -250,3 +250,8 @@ int nombreNoeuds(T_Arbre abr) {
 
     return nombreNoeuds(abr->filsGauche) + nombreNoeuds(abr->filsDroit) + 1;
 }
+
+int nombreElements(T_Arbre abr) {
+    if (abr == NULL) return 0;
+    return nombreElements(abr->filsGauche) + nombreElements(abr->filsDroit) + abr->borneSup - abr->borneInf + 1;
+}
