@@ -201,8 +201,10 @@ T_Arbre supprimerElement(T_Arbre abr, int element) {
     }
 }
 
-unsigned long tailleMemoire(T_Arbre abr) {
-    return sizeof(T_Sommet) * nombreNoeuds(abr);
+unsigned long tailleMemoire(T_Arbre abr, unsigned long *tailleReel, unsigned long *tailleClassique) {
+    *tailleReel = sizeof(T_Sommet) * nombreNoeuds(abr);
+    *tailleClassique = sizeof(Classique) * nombreElements(abr);
+    return *tailleClassique - *tailleReel;
 }
 
 void fusionnerSommet(T_Arbre abr, T_Sommet *cible, int element) {
@@ -220,8 +222,6 @@ void fusionnerSommet(T_Arbre abr, T_Sommet *cible, int element) {
         cible->borneInf = cible2->borneInf;
     }
     else return;
-
-    supprimerNoeud(cible2, cible2Pere);
 }
 
 int hauteurArbre(T_Arbre abr) {

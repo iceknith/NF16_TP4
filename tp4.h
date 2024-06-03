@@ -24,7 +24,7 @@ T_Sommet *rechercherElement(T_Arbre abr, int element);
 void afficherSommet(T_Arbre abr);
 void afficherElement(T_Arbre abr);
 T_Arbre supprimerElement(T_Arbre abr, int element);
-unsigned long tailleMemoire(T_Arbre abr);
+unsigned long tailleMemoire(T_Arbre abr, unsigned long *tailleReel, unsigned long *tailleClassique);
 
 T_Sommet *rechercherElementAvecPere(T_Arbre abr, int element, T_Sommet **pere);
 void supprimerNoeud(T_Sommet *cible, T_Sommet **pere);
@@ -33,5 +33,6 @@ void fusionnerSommet(T_Arbre abr, T_Sommet *cible, int element);
 int hauteurArbre(T_Arbre abr);
 T_Sommet *minimumAvecPere(T_Arbre abr, T_Sommet **pere);
 int nombreNoeuds(T_Arbre abr);
+int nombreElements(T_Arbre abr)
 
 #endif
