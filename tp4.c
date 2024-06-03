@@ -97,11 +97,23 @@ T_Sommet* rechercherElementAvecPere(T_Arbre abr, int element, T_Sommet **pere) {
 }
 
 void afficherSommet(T_Arbre abr) {
-
+    if (abr == NULL) return;
+    afficherSommet(abr->filsGauche);
+    printf("[%d:%d], ", abr->borneInf, abr->borneSup);
+    afficherSommet(abr->filsDroit);
 }
 
 void afficherElement(T_Arbre abr) {
-
+    if (abr == NULL) return;
+    afficherElement(abr->filsGauche);
+    if (abr->borneInf == abr->borneSup) {
+        printf("%d, ", abr->borneInf);
+    } else {
+        for (int i = abr->borneInf ; i <= abr->borneSup ; i++) {
+            printf("%d, ", i);
+        }
+    }
+    afficherElement(abr->filsDroit);
 }
 
 void supprimerNoeud(T_Sommet *cible, T_Sommet **pere) {
@@ -131,7 +143,7 @@ void supprimerNoeud(T_Sommet *cible, T_Sommet **pere) {
     }
     else {
         T_Sommet *pereSuccsesseur = NULL;
-        T_Sommet *succsesseurCible = minimum(cible, &pereSuccsesseur);
+        T_Sommet *succsesseurCible = minimumAvecPere(cible, &pereSuccsesseur);
         cible->borneInf = succsesseurCible->borneInf;
         cible->borneSup = succsesseurCible->borneSup;
         supprimerNoeud(succsesseurCible, &pereSuccsesseur);
@@ -222,7 +234,7 @@ int hauteurArbre(T_Arbre abr) {
     return tailleD + 1;
 }
 
-T_Sommet* minimum(T_Arbre abr, T_Sommet **pere) {
+T_Sommet* minimumAvecPere(T_Arbre abr, T_Sommet **pere) {
     *pere = NULL;
     if (abr == NULL) return NULL;
 
