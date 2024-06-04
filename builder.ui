@@ -96,11 +96,26 @@
           </packing>
         </child>
         <child>
-          <object class="GtkDrawingArea" id="gui_canvas">
-            <property name="height-request">100</property>
+          <object class="GtkScrolledWindow">
             <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <signal name="draw" handler="draw_gui_canvas_event" swapped="no"/>
+            <property name="can-focus">True</property>
+            <property name="hscrollbar-policy">always</property>
+            <property name="vscrollbar-policy">never</property>
+            <property name="window-placement">bottom-left</property>
+            <child>
+              <object class="GtkViewport" id="viewpor">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <child>
+                  <object class="GtkDrawingArea" id="gui_canvas">
+                    <property name="height-request">100</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <signal name="draw" handler="draw_gui_canvas_event" swapped="no"/>
+                  </object>
+                </child>
+              </object>
+            </child>
           </object>
           <packing>
             <property name="left-attach">0</property>

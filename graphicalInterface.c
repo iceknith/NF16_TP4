@@ -208,9 +208,6 @@ static void valider_clicked(GtkWidget *widget, gpointer data){
 }
 
 static void draw_main_canvas_event(GtkWidget *widget, cairo_t *cr, gpointer data){
-    if (unselectedColor == NULL){
-
-    }
 
     if (mainArbre != NULL){
         int h = hauteurArbre(mainArbre) + 1;
@@ -250,8 +247,13 @@ static void draw_gui_canvas_event(GtkWidget *widget, cairo_t *cr, gpointer data)
 
     //Dessiner le nombre de place occupé
     *posX += GUI_TEXT_MARGIN_X;
-    char text[45];
-    sprintf(text, "Voici la taille occupée par l'arbre: %lu octets", tailleMemoire(mainArbre));
+    char text[200];
+    unsigned long *tailleReel = malloc(sizeof(unsigned long));
+    unsigned long *tailleClassique = malloc(sizeof(unsigned long));
+    unsigned long taille = tailleMemoire(mainArbre, tailleReel, tailleClassique);
+    sprintf(text, "Taille occupée: %lu octets.  "
+                  "Taille occupée par un arbre classique: %lu octets.  "
+                  "Gain de place: %lu octets.", *tailleReel, *tailleClassique, taille);
     cairo_set_font_size (cr, SMALL_TXT_SIZE);
     gdk_cairo_set_source_rgba(cr, unselectedColor);
 
@@ -283,7 +285,7 @@ static void text_entry_activate(GtkEditable *editable, gpointer *data){
 }
 
 static void quitter(GtkWidget *widget, GdkEvent *event, gpointer data){
-    g_print("libération de l'espace");
+    libererArbre(mainArbre);
     gtk_main_quit();
 }
 

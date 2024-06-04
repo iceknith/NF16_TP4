@@ -117,6 +117,11 @@ void afficherElement(T_Arbre abr) {
 }
 
 void supprimerNoeud(T_Sommet *cible, T_Sommet **pere) {
+    if (cible->filsDroit == NULL && cible->filsGauche == NULL) {
+        free(cible);
+        return;
+    }
+
     if (cible->filsDroit == NULL) {
         if ((*pere)->filsGauche == cible) {
             (*pere)->filsGauche = cible->filsGauche;
@@ -196,6 +201,10 @@ T_Arbre supprimerElement(T_Arbre abr, int element) {
     }
     //--Cas ou l'intervalle est réduit à un unique élément--//
     else {
+        if (abr == sommetCible){
+            free(abr);
+            return NULL;
+        }
         supprimerNoeud(sommetCible, &pereCible);
         return abr;
     }
@@ -221,7 +230,7 @@ void fusionnerSommet(T_Arbre abr, T_Sommet *cible, int element) {
     else if (cible2->borneSup + 1 == cible->borneInf) {
         cible->borneInf = cible2->borneInf;
     }
-    else return;
+    supprimerNoeud(cible2, cible2Pere);
 }
 
 int hauteurArbre(T_Arbre abr) {
@@ -254,4 +263,12 @@ int nombreNoeuds(T_Arbre abr) {
 int nombreElements(T_Arbre abr) {
     if (abr == NULL) return 0;
     return nombreElements(abr->filsGauche) + nombreElements(abr->filsDroit) + abr->borneSup - abr->borneInf + 1;
+}
+
+void libererArbre(T_Arbre abr) {
+    if (abr == NULL) return;
+
+    libererArbre(abr->filsGauche);
+    libererArbre(abr->filsDroit);
+    free(abr);
 }

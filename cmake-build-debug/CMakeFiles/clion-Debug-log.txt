@@ -1,21 +1,4 @@
-"C:\Program Files\JetBrains\CLion 2024.1\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2024.1/bin/ninja/win/x64/ninja.exe" -G Ninja -S C:\Users\aochi\Desktop\GitHub\NF16_TP4 -B C:\Users\aochi\Desktop\GitHub\NF16_TP4\cmake-build-debug
--- The C compiler identification is GNU 13.1.0
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Check for working C compiler: C:/Program Files/JetBrains/CLion 2024.1/bin/mingw/bin/gcc.exe - skipped
--- Detecting C compile features
--- Detecting C compile features - done
--- Found PkgConfig: C:/msys64/ucrt64/bin/pkg-config.exe (found version "2.1.0") 
--- Checking for module 'gtk+-3.0'
---   Package 'gtk+-3.0', required by 'virtual:world', not found
-CMake Error at C:/Program Files/JetBrains/CLion 2024.1/bin/cmake/win/x64/share/cmake-3.28/Modules/FindPkgConfig.cmake:619 (message):
-  The following required packages were not found:
-
-   - gtk+-3.0
-
-Call Stack (most recent call first):
-  C:/Program Files/JetBrains/CLion 2024.1/bin/cmake/win/x64/share/cmake-3.28/Modules/FindPkgConfig.cmake:841 (_pkg_check_modules_internal)
-  CMakeLists.txt:7 (PKG_CHECK_MODULES)
-
-
--- Configuring incomplete, errors occurred!
+/home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/home/iceknith/.local/share/JetBrains/Toolbox/apps/clion/bin/ninja/linux/x64/ninja -G Ninja -S /home/iceknith/CLionProjects/NF16/TP/NF16_TP4 -B /home/iceknith/CLionProjects/NF16/TP/NF16_TP4/cmake-build-debug
+-- Configuring done (0.0s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/iceknith/CLionProjects/NF16/TP/NF16_TP4/cmake-build-debug

@@ -33,6 +33,7 @@ void fusionnerSommet(T_Arbre abr, T_Sommet *cible, int element);
 int hauteurArbre(T_Arbre abr);
 T_Sommet *minimumAvecPere(T_Arbre abr, T_Sommet **pere);
 int nombreNoeuds(T_Arbre abr);
-int nombreElements(T_Arbre abr)
+int nombreElements(T_Arbre abr);
+void libererArbre(T_Arbre abr);
 
 #endif
