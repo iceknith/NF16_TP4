@@ -118,6 +118,8 @@ void afficherElement(T_Arbre abr) {
 
 void supprimerNoeud(T_Sommet *cible, T_Sommet **pere) {
     if (cible->filsDroit == NULL && cible->filsGauche == NULL) {
+        if (cible == (*pere)->filsGauche) (*pere)->filsGauche = NULL;
+        else (*pere)->filsDroit = NULL;
         free(cible);
         return;
     }
@@ -147,11 +149,11 @@ void supprimerNoeud(T_Sommet *cible, T_Sommet **pere) {
         }
     }
     else {
-        T_Sommet *pereSuccsesseur = NULL;
-        T_Sommet *succsesseurCible = minimumAvecPere(cible, &pereSuccsesseur);
+        T_Sommet **pereSuccsesseur = malloc(sizeof(T_Sommet *));
+        T_Sommet *succsesseurCible = minimumAvecPere(cible, pereSuccsesseur);
         cible->borneInf = succsesseurCible->borneInf;
         cible->borneSup = succsesseurCible->borneSup;
-        supprimerNoeud(succsesseurCible, &pereSuccsesseur);
+        supprimerNoeud(succsesseurCible, pereSuccsesseur);
     }
 }
 
