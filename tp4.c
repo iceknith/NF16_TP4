@@ -116,32 +116,32 @@ void afficherElement(T_Arbre abr) {
     afficherElement(abr->filsDroit);
 }
 
-void supprimerNoeud(T_Sommet *cible, T_Sommet *pere) {
+void supprimerNoeud(T_Sommet *cible, T_Sommet **pere) {
     if (cible->filsDroit == NULL && cible->filsGauche == NULL) {
         free(cible);
         return;
     }
 
     if (cible->filsDroit == NULL) {
-        if (pere->filsGauche == cible) {
-            pere->filsGauche = cible->filsGauche;
+        if ((*pere)->filsGauche == cible) {
+            (*pere)->filsGauche = cible->filsGauche;
             free(cible);
             return;
         }
         else {
-            pere->filsDroit = cible->filsGauche;
+            (*pere)->filsDroit = cible->filsGauche;
             free(cible);
             return;
         }
     }
     if (cible->filsGauche == NULL) {
-        if (pere->filsGauche == cible) {
-            pere->filsGauche = cible->filsDroit;
+        if ((*pere)->filsGauche == cible) {
+            (*pere)->filsGauche = cible->filsDroit;
             free(cible);
             return;
         }
         else {
-            pere->filsDroit = cible->filsDroit;
+            (*pere)->filsDroit = cible->filsDroit;
             free(cible);
             return;
         }
@@ -151,7 +151,7 @@ void supprimerNoeud(T_Sommet *cible, T_Sommet *pere) {
         T_Sommet *succsesseurCible = minimumAvecPere(cible, &pereSuccsesseur);
         cible->borneInf = succsesseurCible->borneInf;
         cible->borneSup = succsesseurCible->borneSup;
-        supprimerNoeud(succsesseurCible, pereSuccsesseur);
+        supprimerNoeud(succsesseurCible, &pereSuccsesseur);
     }
 }
 
@@ -205,7 +205,7 @@ T_Arbre supprimerElement(T_Arbre abr, int element) {
             free(abr);
             return NULL;
         }
-        supprimerNoeud(sommetCible, pereCible);
+        supprimerNoeud(sommetCible, &pereCible);
         return abr;
     }
 }
