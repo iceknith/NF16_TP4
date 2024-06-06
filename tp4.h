@@ -13,9 +13,9 @@ struct Sommet {
 };
 
 struct Classique {
-    int valeur;
     struct AutreSommet *filsGauche;
     struct AutreSommet *filsDroit;
+    int valeur;
 };
 
 T_Sommet *creerSommet(int element);
@@ -27,6 +27,7 @@ T_Arbre supprimerElement(T_Arbre abr, int element);
 unsigned long tailleMemoire(T_Arbre abr, unsigned long *tailleReel, unsigned long *tailleClassique);
 
 T_Sommet *rechercherElementAvecPere(T_Arbre abr, int element, T_Sommet **pere);
+T_Arbre supprimerRacine(T_Arbre abr);
 void supprimerNoeud(T_Sommet *cible, T_Sommet **pere);
 void separerIntervalle(T_Sommet *cible, int element);
 void fusionnerSommet(T_Arbre abr, T_Sommet *cible, int element);

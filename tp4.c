@@ -116,6 +116,31 @@ void afficherElement(T_Arbre abr) {
     afficherElement(abr->filsDroit);
 }
 
+T_Arbre supprimerRacine(T_Arbre abr) {
+    if (abr->filsDroit == NULL && abr->filsGauche == NULL) {
+        free(abr);
+        return NULL;
+    }
+
+    if (abr->filsDroit == NULL) {
+        T_Arbre nouv_abr = abr->filsGauche;
+        free(abr);
+        return nouv_abr;
+    }
+    if (abr->filsGauche == NULL) {
+        T_Arbre nouv_abr = abr->filsDroit;
+        free(abr);
+        return nouv_abr;
+    }
+    else {
+        T_Sommet *pereSuccsesseur = NULL;
+        T_Sommet *succsesseurCible = minimumAvecPere(abr, &pereSuccsesseur);
+        abr->borneInf = succsesseurCible->borneInf;
+        abr->borneSup = succsesseurCible->borneSup;
+        supprimerNoeud(succsesseurCible, &pereSuccsesseur);
+    }
+}
+
 void supprimerNoeud(T_Sommet *cible, T_Sommet **pere) {
     if (cible->filsDroit == NULL && cible->filsGauche == NULL) {
         if (cible == (*pere)->filsGauche) (*pere)->filsGauche = NULL;
@@ -150,7 +175,8 @@ void supprimerNoeud(T_Sommet *cible, T_Sommet **pere) {
     }
     else {
         T_Sommet **pereSuccsesseur = malloc(sizeof(T_Sommet *));
-        T_Sommet *succsesseurCible = minimumAvecPere(cible, pereSuccsesseur);
+        T_Sommet *succsesseurCible = minimumAvecPere(cible->filsDroit, pereSuccsesseur);
+        if (*pereSuccsesseur == NULL) *pereSuccsesseur = cible;
         cible->borneInf = succsesseurCible->borneInf;
         cible->borneSup = succsesseurCible->borneSup;
         supprimerNoeud(succsesseurCible, pereSuccsesseur);
@@ -203,9 +229,8 @@ T_Arbre supprimerElement(T_Arbre abr, int element) {
     }
     //--Cas ou l'intervalle est réduit à un unique élément--//
     else {
-        if (abr == sommetCible){
-            free(abr);
-            return NULL;
+        if (pereCible == NULL) {
+            return supprimerRacine(abr);
         }
         supprimerNoeud(sommetCible, &pereCible);
         return abr;
@@ -251,7 +276,7 @@ T_Sommet* minimumAvecPere(T_Arbre abr, T_Sommet **pere) {
 
     while (abr->filsGauche != NULL) {
         *pere = abr;
-        abr = abr->filsDroit;
+        abr = abr->filsGauche;
     }
     return abr;
 }
