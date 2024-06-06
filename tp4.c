@@ -134,10 +134,12 @@ T_Arbre supprimerRacine(T_Arbre abr) {
     }
     else {
         T_Sommet *pereSuccsesseur = NULL;
-        T_Sommet *succsesseurCible = minimumAvecPere(abr, &pereSuccsesseur);
+        T_Sommet *succsesseurCible = minimumAvecPere(abr->filsDroit, &pereSuccsesseur);
+        if (pereSuccsesseur == NULL) pereSuccsesseur = abr;
         abr->borneInf = succsesseurCible->borneInf;
         abr->borneSup = succsesseurCible->borneSup;
         supprimerNoeud(succsesseurCible, &pereSuccsesseur);
+        return abr;
     }
 }
 

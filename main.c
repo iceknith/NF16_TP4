@@ -13,5 +13,6 @@ int test() {
 
 int main(int argv, char* argc[]) {
     // return test();
-    return graphicalMain(argv, argc);
+    graphicalMain(argv, argc);
+    return 0;
 }
