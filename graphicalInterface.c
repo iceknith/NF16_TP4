@@ -24,14 +24,12 @@ static void activate(){
 
     //On initialise le builder, qui va prendre les données xml de builder.ui, et qui va les convertir en widgets gtk
     builder = gtk_builder_new();
-    if (gtk_builder_add_from_file(builder, "../builder.ui", &error) == 0){
-
+    if (gtk_builder_add_from_file(builder, "./builder.ui", &error) == 0){
         //Si une erreur est survenue
         g_printerr("Error loading file: %styleContext\n", error->message);
         g_clear_error(&error);
         return;
     }
-
     //On récupère les éléments initialisés
     window = gtk_builder_get_object(builder, "window");
     pop = (GtkPopover*) gtk_builder_get_object(builder, "text_popover");

@@ -116,33 +116,6 @@ void afficherElement(T_Arbre abr) {
     afficherElement(abr->filsDroit);
 }
 
-T_Arbre supprimerRacine(T_Arbre abr) {
-    if (abr->filsDroit == NULL && abr->filsGauche == NULL) {
-        free(abr);
-        return NULL;
-    }
-
-    if (abr->filsDroit == NULL) {
-        T_Arbre nouv_abr = abr->filsGauche;
-        free(abr);
-        return nouv_abr;
-    }
-    if (abr->filsGauche == NULL) {
-        T_Arbre nouv_abr = abr->filsDroit;
-        free(abr);
-        return nouv_abr;
-    }
-    else {
-        T_Sommet *pereSuccsesseur = NULL;
-        T_Sommet *succsesseurCible = minimumAvecPere(abr->filsDroit, &pereSuccsesseur);
-        if (pereSuccsesseur == NULL) pereSuccsesseur = abr;
-        abr->borneInf = succsesseurCible->borneInf;
-        abr->borneSup = succsesseurCible->borneSup;
-        supprimerNoeud(succsesseurCible, &pereSuccsesseur);
-        return abr;
-    }
-}
-
 void supprimerNoeud(T_Sommet *cible, T_Sommet **pere) {
     if (cible->filsDroit == NULL && cible->filsGauche == NULL) {
         if (cible == (*pere)->filsGauche) (*pere)->filsGauche = NULL;
@@ -182,6 +155,33 @@ void supprimerNoeud(T_Sommet *cible, T_Sommet **pere) {
         cible->borneInf = succsesseurCible->borneInf;
         cible->borneSup = succsesseurCible->borneSup;
         supprimerNoeud(succsesseurCible, pereSuccsesseur);
+    }
+}
+
+T_Arbre supprimerRacine(T_Arbre abr) {
+    if (abr->filsDroit == NULL && abr->filsGauche == NULL) {
+        free(abr);
+        return NULL;
+    }
+
+    if (abr->filsDroit == NULL) {
+        T_Arbre nouv_abr = abr->filsGauche;
+        free(abr);
+        return nouv_abr;
+    }
+    if (abr->filsGauche == NULL) {
+        T_Arbre nouv_abr = abr->filsDroit;
+        free(abr);
+        return nouv_abr;
+    }
+    else {
+        T_Sommet *pereSuccsesseur = NULL;
+        T_Sommet *succsesseurCible = minimumAvecPere(abr->filsDroit, &pereSuccsesseur);
+        if (pereSuccsesseur == NULL) pereSuccsesseur = abr;
+        abr->borneInf = succsesseurCible->borneInf;
+        abr->borneSup = succsesseurCible->borneSup;
+        supprimerNoeud(succsesseurCible, &pereSuccsesseur);
+        return abr;
     }
 }
 
